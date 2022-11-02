@@ -266,7 +266,7 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
                                                 encoding:NSUTF8StringEncoding];
 
     NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"package: name='(.+)' versionCode='(.+)' versionName='(.+)' platformBuildVersionName='.*'"
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"package: name='(.+)' versionCode='(.+)' versionName='(.+?)'"
                                                                            options:NSRegularExpressionCaseInsensitive
                                                                              error:&error];
 
