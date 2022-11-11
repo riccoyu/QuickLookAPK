@@ -314,7 +314,15 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
     NSTextCheckingResult *result = [matches lastObject];
     NSRange range = [result rangeAtIndex:1];
     self.iconPath = [apkString substringWithRange:range];
-    self.iconData = dataFromZipPath(self.path, self.iconPath);
+    if ([self.iconPath hasSuffix:@".xml"]) {
+        NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
+        NSString *defaultIconPath = [thisBundle pathForResource:@"default_ic_launcher_xxxhdpi" ofType:@"png"];
+        self.iconPath = defaultIconPath;
+        NSFileHandle *defaultIconFile = [NSFileHandle fileHandleForReadingAtPath:defaultIconPath];
+        self.iconData = [defaultIconFile readDataToEndOfFile];
+    } else {
+        self.iconData = dataFromZipPath(self.path, self.iconPath);
+    }
 
     regex = [NSRegularExpression regularExpressionWithPattern:@"uses-permission: name='([^\\v\\h]+)'"
                                                       options:0
